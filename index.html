@@ -59,10 +59,71 @@
 		}
 		
   </style>
-  </head>
+  <script> // Change to your URL (Must have Access-Control-Allow-Origin header to allow CORS)
+	var csvUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTheKOBzJxwv_W0Tbzr-YxpYSapckOaivAVr-dlsqHTkAyyO8WyZe8MtZoA4b6Bpuq5_csl1Rv3oWK5/pub?gid=0&single=true&output=csv';
+
+
+	function handleCSVResult(csvString) {
+	  // Get the div element to append the data to
+	  var dataArea = document.querySelector('#csv_data');
+	  var dataArea2 = document.querySelector('#csv_data2');
+	  var image = document.querySelector('.img');
+	  
+	  // Split csv to rows
+	  var rows = csvString.split('\n');
+	  
+	  var htmlStr = '';
+	  var htmlStr2 = '';
+	  
+		var row = rows[1];
+		
+		// split row to cells
+		var cells = row.split(',');
+		
+		// Extract data from cell 1 and 2 of current row
+		var episodeNum = cells[0];
+		var percentComplete = cells[1];
+		
+		// Add extracted CSV data to string
+		htmlStr += 'Northern UIM Episode ' + episodeNum + ' is';
+		htmlStr2 += percentComplete + '% Complete.';
+
+		if (percentComplete < 20) {
+			image.src="images/0-19.png"
+		}
+		else {
+			image.src="images/20-39.png"
+		}
+	  
+	  // Set the string generated from CSV as HTML of the dedicated div
+	  dataArea.innerHTML = htmlStr;
+	  dataArea2.innerHTML = htmlStr2;
+	}
+
+	// Init Ajax Object
+	var ajax = new XMLHttpRequest();
+
+	// Set a GET request to the URL which points to your CSV file
+	ajax.open('GET', csvUrl);
+
+	// Set the action that will take place once the browser receives your CSV
+	ajax.onreadystatechange = function() {
+	  if (ajax.readyState === XMLHttpRequest.DONE && ajax.status === 200) {
+		// Request was successful
+		var csvData = ajax.responseText;
+
+		// Do something with that data here
+		handleCSVResult(csvData);
+	  }
+	}
+	// Send request
+	ajax.send();
+</script>
+</head>
   <body>
-	<p> Northern UIM </br> Episode 15 is</p>
+	<p id="csv_data"> Northern UIM </br> Episode 15 is</p>
 	<img class="img" src="images/0-19.png">
-	<p>  0% Complete.  </p>
+	<p id="csv_data2">  0% Complete.  </p>
   </body>
+  
 </html>
