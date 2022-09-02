@@ -59,10 +59,62 @@
 		}
 		
   </style>
-  </head>
+	<script> // Change to your URL (Must have Access-Control-Allow-Origin header to allow CORS)
+var csvUrl = 'https://gist.githubusercontent.com/zbone3/96de8a3a836a8d93e7e9f3c3b34667b0/raw/6fdd7a6708cc07bda7fd052fe6f706ad7ac632f4/sample_csv.csv';
+
+
+function handleCSVResult(csvString) {
+  // Get the div element to append the data to
+  var dataArea = document.querySelector('#csv_data');
+  
+  // Split csv to rows
+  var rows = csvString.split('\n');
+  
+  var htmlStr = '';
+  
+  // Iterate over each row
+  for (var i = 0; i < rows.length; i++) {
+    var row = rows[i];
+    
+    // split row to cells
+    var cells = row.split(',');
+    
+    // Extract data from cell 1 and 2 of current row
+    var companyName = cells[0];
+    var stockPrice = cells[1];
+    
+    // Add extracted CSV data to string
+    htmlStr += '<p>Quote for ' + companyName + ': ' + stockPrice + '</p><br>';
+  }
+  
+  // Set the string generated from CSV as HTML of the dedicated div
+  dataArea.innerHTML = htmlStr;
+}
+
+// Init Ajax Object
+var ajax = new XMLHttpRequest();
+
+// Set a GET request to the URL which points to your CSV file
+ajax.open('GET', csvUrl);
+
+// Set the action that will take place once the browser receives your CSV
+ajax.onreadystatechange = function() {
+  if (ajax.readyState === XMLHttpRequest.DONE && ajax.status === 200) {
+    // Request was successful
+    var csvData = ajax.responseText;
+
+    // Do something with that data here
+    handleCSVResult(csvData);
+  }
+}
+
+// Send request
+ajax.send();
+</script>
+</head>
   <body>
-	<p> Northern UIM </br> Episode 14 is</p>
+	<p> Northern UIM </br> Episode 15 is</p>
 	<img class="img" src="images/0-19.png">
-	<p>  78% Complete.  </p>
+	<p>  0% Complete.  </p>
   </body>
 </html>
