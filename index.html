@@ -83,17 +83,17 @@
 		// Extract data from cell 1 and 2 of current row
 		var episodeNum = cells[0];
 		var percentComplete = cells[1];
-		//var percentComplete = 50; //use this to test
+		//var percentComplete = 61; //use this to test
 		
 		// Add extracted CSV data to string
 		htmlStr += 'Northern UIM Episode ' + episodeNum + ' is';
 		htmlStr2 += percentComplete + '% Complete.';
 
 		if (percentComplete < 20) {
-			image.src="images/0-19.png"
+			image.src="images/0-19.gif"
 		}
 		else if (percentComplete < 40) {
-			image.src="images/20-39.png"
+			image.src="images/20-39.gif"
 		}
 		else if (percentComplete < 60) {
 			image.src="images/40-59.gif"
